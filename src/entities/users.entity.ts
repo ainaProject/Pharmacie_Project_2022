@@ -12,6 +12,8 @@ import {
 import { User } from '@interfaces/users.interface';
 import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
+import {RoleEntity} from "@entities/Role.entity";
+import {Role} from "@interfaces/role.interface";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -45,6 +47,9 @@ export class UserEntity extends BaseEntity implements User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => ContactEntity, (contact_id: ContactEntity) => contact_id.user)
+  @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.user)
   public contact: ContactEntity;
+
+  @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.user)
+  public role: RoleEntity;
 }

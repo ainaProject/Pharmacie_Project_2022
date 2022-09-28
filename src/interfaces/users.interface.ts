@@ -1,4 +1,5 @@
 import {Contact} from "@interfaces/contact.interface";
+import {Role} from "@interfaces/role.interface";
 
 export interface User {
   id: number;
@@ -6,5 +7,6 @@ export interface User {
   password: string;
   name: string;
   first_name: string;
-  contact?: Contact
+  contact?: Contact;
+  role?: Role;
 }

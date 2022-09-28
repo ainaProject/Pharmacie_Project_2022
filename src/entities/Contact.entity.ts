@@ -44,6 +44,6 @@ export class ContactEntity extends BaseEntity implements Contact {
   @IsEmpty()
   country: string;
 
-  @OneToMany(() => UserEntity, (user_id: UserEntity) => user_id.contact)
+  @OneToMany(() => UserEntity, (user: UserEntity) => user.contact)
   public user: UserEntity[];
 }
