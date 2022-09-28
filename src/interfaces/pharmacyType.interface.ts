@@ -1,5 +1,4 @@
-
-export interface Status {
+export interface PharmacyType {
   id: number;
   designation: string;
   code: string;

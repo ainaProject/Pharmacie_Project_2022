@@ -14,6 +14,8 @@ import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
 import {RoleEntity} from "@entities/Role.entity";
 import {Role} from "@interfaces/role.interface";
+import {StatusEntity} from "@entities/Status.entity";
+import {Status} from "@interfaces/status.interface";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -52,4 +54,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.user)
   public role: RoleEntity;
+
+  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.user)
+  public status: Status;
 }
