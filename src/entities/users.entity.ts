@@ -7,7 +7,7 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne
+  ManyToOne, OneToMany
 } from 'typeorm';
 import { User } from '@interfaces/users.interface';
 import {Contact} from "swagger-jsdoc";
@@ -17,6 +17,7 @@ import {Role} from "@interfaces/role.interface";
 import {StatusEntity} from "@entities/Status.entity";
 import {Status} from "@interfaces/status.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
+import {MovementEntity} from "@entities/Movement.entity";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -61,4 +62,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
   public pharmacy: PharmacyEntity;
+
+  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.user)
+  public movement: MovementEntity[];
 }
