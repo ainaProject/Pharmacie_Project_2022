@@ -19,31 +19,22 @@ import {UserEntity} from "@entities/users.entity";
 import {Product} from "@interfaces/product.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {StockEntity} from "@entities/Stock.entity";
-import {ThresholdEntity} from "@entities/Threshold.entity";
+import {Threshold} from "@interfaces/Threshold.interface";
+import {ProductEntity} from "@entities/Product.entity";
 
 @Entity()
-export class ProductEntity extends BaseEntity implements Product {
+export class ThresholdEntity extends BaseEntity implements Threshold {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  @IsNotEmpty()
-  designation: string;
+  @ManyToOne(() => ProductEntity, (product: ProductEntity) => product.threshold)
+  public product: ProductEntity;
 
   @Column()
   @IsNotEmpty()
-  unit_price: number;
+  min: number;
 
   @Column()
-  @IsEmpty()
-  description: string;
-
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.product)
-  public pharmacy: PharmacyEntity;
-
-  @OneToMany(() => StockEntity, (stock: StockEntity) => stock.product)
-  public stock: StockEntity[];
-
-  @OneToMany(() => ThresholdEntity, (threshold: ThresholdEntity) => threshold.product)
-  public threshold: ThresholdEntity[];
+  @IsNotEmpty()
+  max: number;
 }

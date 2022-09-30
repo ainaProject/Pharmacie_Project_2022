@@ -20,30 +20,24 @@ import {Product} from "@interfaces/product.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {StockEntity} from "@entities/Stock.entity";
 import {ThresholdEntity} from "@entities/Threshold.entity";
+import {Movement} from "@interfaces/movement.interface";
+import {TypeMovementEntity} from "@entities/TypeMovement.entity";
 
 @Entity()
-export class ProductEntity extends BaseEntity implements Product {
+export class MovementEntity extends BaseEntity implements Movement {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   @IsNotEmpty()
-  designation: string;
+  motif: string;
 
-  @Column()
-  @IsNotEmpty()
-  unit_price: number;
+  @ManyToOne(() => TypeMovementEntity, (typeMovement: TypeMovementEntity) => typeMovement.movement)
+  public typeMovement: TypeMovementEntity;
 
-  @Column()
-  @IsEmpty()
-  description: string;
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement)
+  public user: UserEntity;
 
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.product)
-  public pharmacy: PharmacyEntity;
-
-  @OneToMany(() => StockEntity, (stock: StockEntity) => stock.product)
-  public stock: StockEntity[];
-
-  @OneToMany(() => ThresholdEntity, (threshold: ThresholdEntity) => threshold.product)
-  public threshold: ThresholdEntity[];
+  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.movement)
+  public status: StatusEntity;
 }

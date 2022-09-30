@@ -15,6 +15,7 @@ import {ContactEntity} from "@entities/Contact.entity";
 import {UserEntity} from "@entities/users.entity";
 import {Status} from "@interfaces/status.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
+import {MovementEntity} from "@entities/Movement.entity";
 
 @Entity()
 export class StatusEntity extends BaseEntity implements Status {
@@ -34,4 +35,7 @@ export class StatusEntity extends BaseEntity implements Status {
 
   @OneToMany(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.status)
   public pharmacy: PharmacyEntity[];
+
+  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.status)
+  public movement: MovementEntity[];
 }
