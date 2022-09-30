@@ -16,6 +16,7 @@ import {StatusEntity} from "@entities/Status.entity";
 import {TypePharmacyEntity} from "@entities/TypePharmacy.entity";
 import {Pharmacy} from "@interfaces/pharmacy.interface";
 import {UserEntity} from "@entities/users.entity";
+import {ProductEntity} from "@entities/Product.entity";
 
 @Entity()
 export class PharmacyEntity extends BaseEntity implements Pharmacy {
@@ -37,4 +38,7 @@ export class PharmacyEntity extends BaseEntity implements Pharmacy {
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.pharmacy)
   public user: UserEntity[];
+
+  @OneToMany(() => ProductEntity, (product: ProductEntity) => product.pharmacy)
+  public product: ProductEntity[];
 }
