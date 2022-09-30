@@ -1,11 +1,11 @@
 import {Status} from "@interfaces/status.interface";
 import {Contact} from "@interfaces/contact.interface";
-import {PharmacyType} from "@interfaces/pharmacyType.interface";
+import {TypePharmacy} from "@interfaces/TypePharmacy.interface";
 
 export interface Pharmacy {
   id: number;
   designation: string;
-  pharmacyType: PharmacyType;
+  typePharmacy: TypePharmacy;
   contact?: Contact;
   status?: Status;
 }

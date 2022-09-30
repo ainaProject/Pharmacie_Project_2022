@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Contact } from '@interfaces/contact.interface';
 import {UserEntity} from "@entities/users.entity";
+import {PharmacyEntity} from "@entities/Pharmacy.entity";
 
 @Entity()
 export class ContactEntity extends BaseEntity implements Contact {
@@ -46,4 +47,7 @@ export class ContactEntity extends BaseEntity implements Contact {
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.contact)
   public user: UserEntity[];
+
+  @OneToMany(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.contact)
+  public pharmacy: UserEntity[];
 }

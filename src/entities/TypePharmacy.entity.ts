@@ -14,6 +14,8 @@ import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
 import {Role} from "@interfaces/role.interface";
 import {UserEntity} from "@entities/users.entity";
+import {PharmacyEntity} from "@entities/Pharmacy.entity";
+import {TypePharmacy} from "@interfaces/TypePharmacy.interface";
 
 @Entity()
 export class TypePharmacyEntity extends BaseEntity implements TypePharmacy {

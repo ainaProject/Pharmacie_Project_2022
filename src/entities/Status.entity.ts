@@ -14,6 +14,7 @@ import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
 import {UserEntity} from "@entities/users.entity";
 import {Status} from "@interfaces/status.interface";
+import {PharmacyEntity} from "@entities/Pharmacy.entity";
 
 @Entity()
 export class StatusEntity extends BaseEntity implements Status {
@@ -30,4 +31,7 @@ export class StatusEntity extends BaseEntity implements Status {
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.status)
   public user: UserEntity[];
+
+  @OneToMany(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.status)
+  public pharmacy: PharmacyEntity[];
 }

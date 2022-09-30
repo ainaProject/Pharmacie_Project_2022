@@ -16,6 +16,7 @@ import {RoleEntity} from "@entities/Role.entity";
 import {Role} from "@interfaces/role.interface";
 import {StatusEntity} from "@entities/Status.entity";
 import {Status} from "@interfaces/status.interface";
+import {PharmacyEntity} from "@entities/Pharmacy.entity";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -57,4 +58,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.user)
   public status: Status;
+
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
+  public pharmacy: PharmacyEntity;
 }
