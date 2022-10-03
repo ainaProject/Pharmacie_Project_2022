@@ -1,6 +1,6 @@
 import {IsString} from 'class-validator';
 
-export class CreateRoleDto {
+export class CreateTypeActiveRoleDto {
 
   @IsString()
   public designation?: string;

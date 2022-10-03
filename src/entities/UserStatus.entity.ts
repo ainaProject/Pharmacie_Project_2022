@@ -12,11 +12,11 @@ import {
 import { User } from '@interfaces/users.interface';
 import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
-import {Role} from "@interfaces/role.interface";
+import {UserStatus} from "@interfaces/userStatus.interface";
 import {UserEntity} from "@entities/users.entity";
 
 @Entity()
-export class RoleEntity extends BaseEntity implements Role {
+export class UserStatusEntity extends BaseEntity implements UserStatus {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -28,6 +28,6 @@ export class RoleEntity extends BaseEntity implements Role {
   @IsEmpty()
   code: string;
 
-  @OneToMany(() => UserEntity, (user: UserEntity) => user.role)
+  @OneToMany(() => UserEntity, (user: UserEntity) => user.userStatus)
   public user: UserEntity[];
 }

@@ -12,12 +12,12 @@ import {
 import { User } from '@interfaces/users.interface';
 import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
-import {RoleEntity} from "@entities/Role.entity";
-import {Role} from "@interfaces/role.interface";
+import {UserStatusEntity} from "@entities/UserStatus.entity";
 import {StatusEntity} from "@entities/Status.entity";
 import {Status} from "@interfaces/status.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {MovementEntity} from "@entities/Movement.entity";
+import {ActiveRoleEntity} from "@entities/ActiveRole.entity";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -54,8 +54,8 @@ export class UserEntity extends BaseEntity implements User {
   @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.user)
   public contact: ContactEntity;
 
-  @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.user)
-  public role: RoleEntity;
+  @ManyToOne(() => UserStatusEntity, (userStatus: UserStatusEntity) => userStatus.user)
+  public userStatus: UserStatusEntity;
 
   @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.user)
   public status: Status;
@@ -65,4 +65,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.user)
   public movement: MovementEntity[];
+
+  @OneToMany(() => ActiveRoleEntity, (activeRole: ActiveRoleEntity) => activeRole.user)
+  public activeRole: ActiveRoleEntity[];
 }
