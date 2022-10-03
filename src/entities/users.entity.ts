@@ -18,6 +18,7 @@ import {Status} from "@interfaces/status.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {MovementEntity} from "@entities/Movement.entity";
 import {ActiveRoleEntity} from "@entities/ActiveRole.entity";
+import {PresenceEntity} from "@entities/Presence.entity";
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -68,4 +69,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @OneToMany(() => ActiveRoleEntity, (activeRole: ActiveRoleEntity) => activeRole.user)
   public activeRole: ActiveRoleEntity[];
+
+  @OneToMany(() => PresenceEntity, (presence: PresenceEntity) => presence.user)
+  public presence: PresenceEntity[];
 }

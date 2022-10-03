@@ -15,6 +15,7 @@ import {Movement} from "@interfaces/movement.interface";
 import {TypeMovementEntity} from "@entities/TypeMovement.entity";
 import {ThresholdEntity} from "@entities/Threshold.entity";
 import {MovementDetailEntity} from "@entities/MovementDetail.entity";
+import {MovementInvoiceEntity} from "@entities/MovementInvoice.entity";
 
 @Entity()
 export class MovementEntity extends BaseEntity implements Movement {
@@ -36,4 +37,7 @@ export class MovementEntity extends BaseEntity implements Movement {
 
   @OneToMany(() => MovementDetailEntity, (movementDetail: MovementDetailEntity) => movementDetail.movement)
   public movementDetail: MovementDetailEntity[];
+
+  @OneToMany(() => MovementInvoiceEntity, (movementInvoice: MovementInvoiceEntity) => movementInvoice.movement)
+  public movementInvoice: MovementInvoiceEntity[];
 }
