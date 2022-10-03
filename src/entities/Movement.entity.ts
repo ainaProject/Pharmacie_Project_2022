@@ -13,6 +13,8 @@ import {StatusEntity} from "@entities/Status.entity";
 import {UserEntity} from "@entities/users.entity";
 import {Movement} from "@interfaces/movement.interface";
 import {TypeMovementEntity} from "@entities/TypeMovement.entity";
+import {ThresholdEntity} from "@entities/Threshold.entity";
+import {MovementDetailEntity} from "@entities/MovementDetail.entity";
 
 @Entity()
 export class MovementEntity extends BaseEntity implements Movement {
@@ -31,4 +33,7 @@ export class MovementEntity extends BaseEntity implements Movement {
 
   @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.movement)
   public status: StatusEntity;
+
+  @OneToMany(() => MovementDetailEntity, (movementDetail: MovementDetailEntity) => movementDetail.movement)
+  public movementDetail: MovementDetailEntity[];
 }

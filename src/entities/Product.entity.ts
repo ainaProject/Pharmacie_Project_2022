@@ -20,6 +20,7 @@ import {Product} from "@interfaces/product.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {StockEntity} from "@entities/Stock.entity";
 import {ThresholdEntity} from "@entities/Threshold.entity";
+import {MovementDetailEntity} from "@entities/MovementDetail.entity";
 
 @Entity()
 export class ProductEntity extends BaseEntity implements Product {
@@ -46,4 +47,7 @@ export class ProductEntity extends BaseEntity implements Product {
 
   @OneToMany(() => ThresholdEntity, (threshold: ThresholdEntity) => threshold.product)
   public threshold: ThresholdEntity[];
+
+  @OneToMany(() => MovementDetailEntity, (movementDetail: MovementDetailEntity) => movementDetail.product)
+  public movementDetail: MovementDetailEntity[];
 }
