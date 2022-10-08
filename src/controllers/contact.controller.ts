@@ -9,6 +9,7 @@ import {ApiResponse} from "@interfaces/response.interface";
 class ContactController extends BaseController{
   public contactService = new ContactService();
   public helper = new Helper();
+
   public getAllContact = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const limit: number = +req.query.limit;
