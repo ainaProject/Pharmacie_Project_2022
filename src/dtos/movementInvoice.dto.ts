@@ -7,7 +7,4 @@ export class CreateMovementInvoiceDto {
 
   @IsNumber()
   sumTotal: number;
-
-  @IsString()
-  fileLocalCurl: string;
 }

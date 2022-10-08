@@ -28,8 +28,4 @@ export class MovementInvoiceEntity extends BaseEntity implements MovementInvoice
   @Column()
   @IsNotEmpty()
   sumTotal: number;
-
-  @Column()
-  @IsNotEmpty()
-  fileLocalCurl: string;
 }

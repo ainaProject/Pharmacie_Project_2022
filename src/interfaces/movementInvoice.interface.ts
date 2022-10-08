@@ -4,5 +4,4 @@ export interface MovementInvoice {
   id: number;
   movement: Movement;
   sumTotal: number;
-  fileLocalCurl: string;
 }

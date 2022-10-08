@@ -64,8 +64,14 @@ export class UserEntity extends BaseEntity implements User {
   @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
   public pharmacy: PharmacyEntity;
 
-  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.user)
+  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.send)
   public movement: MovementEntity[];
+
+  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.receiver)
+  public movement_2: MovementEntity[];
+
+  @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.validate)
+  public movement_3: MovementEntity[];
 
   @OneToMany(() => ActiveRoleEntity, (activeRole: ActiveRoleEntity) => activeRole.user)
   public activeRole: ActiveRoleEntity[];

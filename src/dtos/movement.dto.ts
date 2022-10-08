@@ -12,7 +12,10 @@ export class CreateMovementDto {
   typeMovement: TypeMovement;
 
   @IsObject ()
-  user: User;
+  send: User;
+
+  @IsObject ()
+  receiver: User;
 
   @IsObject ()
   status: Status;
