@@ -6,7 +6,7 @@ import Helper from "@utils/helper";
 import BaseController from "@controllers/BaseController.controller";
 import {ApiResponse} from "@interfaces/response.interface";
 
-class ContactController extends BaseController{
+class ContactController extends BaseController {
   public contactService = new ContactService();
   public helper = new Helper();
 
