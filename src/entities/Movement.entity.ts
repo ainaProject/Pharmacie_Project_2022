@@ -30,7 +30,13 @@ export class MovementEntity extends BaseEntity implements Movement {
   public typeMovement: TypeMovementEntity;
 
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement)
-  public user: UserEntity;
+  public send: UserEntity;
+
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_2)
+  public receiver: UserEntity;
+
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_3)
+  public validate: UserEntity;
 
   @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.movement)
   public status: StatusEntity;

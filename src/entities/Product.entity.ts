@@ -21,6 +21,7 @@ import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {StockEntity} from "@entities/Stock.entity";
 import {ThresholdEntity} from "@entities/Threshold.entity";
 import {MovementDetailEntity} from "@entities/MovementDetail.entity";
+import {CategoryEntity} from "@entities/Category.entity";
 
 @Entity()
 export class ProductEntity extends BaseEntity implements Product {
@@ -30,6 +31,9 @@ export class ProductEntity extends BaseEntity implements Product {
   @Column()
   @IsNotEmpty()
   designation: string;
+
+  @ManyToOne(() => CategoryEntity, (category: CategoryEntity) => category.product)
+  public category: CategoryEntity;
 
   @Column()
   @IsNotEmpty()

@@ -10,6 +10,8 @@ import {
   ManyToOne, OneToMany
 } from 'typeorm';
 import {Category} from "@interfaces/category.interface";
+import {StockEntity} from "@entities/Stock.entity";
+import {ProductEntity} from "@entities/Product.entity";
 
 @Entity()
 export class CategoryEntity extends BaseEntity implements Category {
@@ -23,4 +25,7 @@ export class CategoryEntity extends BaseEntity implements Category {
   @Column()
   @IsEmpty()
   code: string;
+
+  @OneToMany(() => ProductEntity, (product: ProductEntity) => product.category)
+  public product: ProductEntity[];
 }

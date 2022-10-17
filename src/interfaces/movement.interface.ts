@@ -7,6 +7,8 @@ export interface Movement {
   id: number;
   motif: string;
   typeMovement: TypeMovement;
-  user: User;
+  send: User;
+  receiver: User;
+  validate?: User;
   status: Status;
 }
