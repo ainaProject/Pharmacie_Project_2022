@@ -1,4 +1,5 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
+/* eslint-disable prettier/prettier */
+import {IsNotEmpty} from 'class-validator';
 import {
   BaseEntity,
   Entity,
@@ -10,7 +11,6 @@ import {
   ManyToOne, OneToMany
 } from 'typeorm';
 import { User } from '@interfaces/users.interface';
-import {Contact} from "swagger-jsdoc";
 import {ContactEntity} from "@entities/Contact.entity";
 import {UserStatusEntity} from "@entities/UserStatus.entity";
 import {StatusEntity} from "@entities/Status.entity";
@@ -51,7 +51,7 @@ export class UserEntity extends BaseEntity implements User {
   @Column()
   @UpdateDateColumn()
   updatedAt: Date;
-
+//-----------------------Many To One Relations------------------------------------
   @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.user)
   public contact: ContactEntity;
 
@@ -63,7 +63,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
   public pharmacy: PharmacyEntity;
-
+//---------------------One To Many Relations------------------------------------------------
   @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.send)
   public movement: MovementEntity[];
 
