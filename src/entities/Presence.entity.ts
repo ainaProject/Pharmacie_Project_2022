@@ -1,7 +1,7 @@
-import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Presence} from "@interfaces/presence.interface";
-import {UserEntity} from "@entities/users.entity";
-import {IsNotEmpty} from "class-validator";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Presence } from '@interfaces/presence.interface';
+import { UserEntity } from '@entities/users.entity';
+import { IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class PresenceEntity extends BaseEntity implements Presence {

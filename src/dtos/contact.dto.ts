@@ -1,7 +1,6 @@
-import {IsEmail, IsObject, IsString} from 'class-validator';
+import { IsEmail, IsObject, IsString } from 'class-validator';
 
 export class CreateContactDto {
-
   @IsEmail()
   public email?: string;
 
@@ -19,5 +18,4 @@ export class CreateContactDto {
 
   @IsString()
   public country?: string;
-
 }

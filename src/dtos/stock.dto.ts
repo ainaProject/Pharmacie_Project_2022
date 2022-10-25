@@ -1,9 +1,8 @@
-import {IsNumber, IsObject, IsString} from 'class-validator';
-import {Product} from "@interfaces/product.interface";
+import { IsNumber, IsObject, IsString } from 'class-validator';
+import { Product } from '@interfaces/product.interface';
 
 export class CreateStockDto {
-
-  @IsObject ()
+  @IsObject()
   product: Product;
 
   @IsNumber()

@@ -1,21 +1,12 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne, OneToMany
-} from 'typeorm';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '@interfaces/users.interface';
-import {Contact} from "swagger-jsdoc";
-import {ContactEntity} from "@entities/Contact.entity";
-import {UserEntity} from "@entities/users.entity";
-import {Status} from "@interfaces/status.interface";
-import {PharmacyEntity} from "@entities/Pharmacy.entity";
-import {MovementEntity} from "@entities/Movement.entity";
+import { Contact } from 'swagger-jsdoc';
+import { ContactEntity } from '@entities/Contact.entity';
+import { UserEntity } from '@entities/users.entity';
+import { Status } from '@interfaces/status.interface';
+import { PharmacyEntity } from '@entities/Pharmacy.entity';
+import { MovementEntity } from '@entities/Movement.entity';
 
 @Entity()
 export class StatusEntity extends BaseEntity implements Status {

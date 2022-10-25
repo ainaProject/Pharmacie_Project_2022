@@ -1,4 +1,4 @@
-import {User} from "@interfaces/users.interface";
+import { User } from '@interfaces/users.interface';
 
 export interface Presence {
   id: number;

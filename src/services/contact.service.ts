@@ -1,9 +1,6 @@
-import {EntityRepository, Repository} from "typeorm";
-import {ContactEntity} from "@entities/Contact.entity";
-import UserService from "@services/users.service";
-import {User} from "@interfaces/users.interface";
-import {UserEntity} from "@entities/users.entity";
-import {Contact} from "@interfaces/contact.interface";
+import { EntityRepository, Repository } from 'typeorm';
+import { ContactEntity } from '@entities/Contact.entity';
+import { Contact } from '@interfaces/contact.interface';
 
 @EntityRepository()
 class ContactService extends Repository<ContactEntity> {
@@ -11,9 +8,9 @@ class ContactService extends Repository<ContactEntity> {
     const contacts: Contact[] = await ContactEntity.find({
       where: {},
       relations: ['user'],
-      order:{'id':'ASC'},
+      order: { id: 'ASC' },
       take: limit,
-      skip: offset
+      skip: offset,
     });
 
     return contacts;

@@ -1,5 +1,5 @@
-import {TypeActiveRole} from "@interfaces/TypeActiveRole.interface";
-import {User} from "@interfaces/users.interface";
+import { TypeActiveRole } from '@interfaces/TypeActiveRole.interface';
+import { User } from '@interfaces/users.interface';
 
 export interface ActiveRole {
   id: number;

@@ -1,21 +1,12 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne, OneToMany
-} from 'typeorm';
-import {StatusEntity} from "@entities/Status.entity";
-import {UserEntity} from "@entities/users.entity";
-import {Movement} from "@interfaces/movement.interface";
-import {TypeMovementEntity} from "@entities/TypeMovement.entity";
-import {ThresholdEntity} from "@entities/Threshold.entity";
-import {MovementDetailEntity} from "@entities/MovementDetail.entity";
-import {MovementInvoiceEntity} from "@entities/MovementInvoice.entity";
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { StatusEntity } from '@entities/Status.entity';
+import { UserEntity } from '@entities/users.entity';
+import { Movement } from '@interfaces/movement.interface';
+import { TypeMovementEntity } from '@entities/TypeMovement.entity';
+import { ThresholdEntity } from '@entities/Threshold.entity';
+import { MovementDetailEntity } from '@entities/MovementDetail.entity';
+import { MovementInvoiceEntity } from '@entities/MovementInvoice.entity';
 
 @Entity()
 export class MovementEntity extends BaseEntity implements Movement {

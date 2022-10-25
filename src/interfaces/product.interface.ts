@@ -1,5 +1,5 @@
-import {Pharmacy} from "@interfaces/pharmacy.interface";
-import {Category} from "@interfaces/category.interface";
+import { Pharmacy } from '@interfaces/pharmacy.interface';
+import { Category } from '@interfaces/category.interface';
 
 export interface Product {
   id: number;

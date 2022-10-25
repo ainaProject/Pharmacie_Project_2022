@@ -1,9 +1,8 @@
-import {IsNumber, IsObject} from 'class-validator';
-import {Product} from "@interfaces/product.interface";
+import { IsNumber, IsObject } from 'class-validator';
+import { Product } from '@interfaces/product.interface';
 
 export class CreateThresholdDto {
-
-  @IsObject ()
+  @IsObject()
   product: Product;
 
   @IsNumber()

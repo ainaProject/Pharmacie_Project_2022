@@ -1,5 +1,5 @@
-import {IsObject, IsString} from "class-validator";
-import {User} from "@interfaces/users.interface";
+import { IsObject, IsString } from 'class-validator';
+import { User } from '@interfaces/users.interface';
 
 export class CreatePresenceDto {
   @IsObject()

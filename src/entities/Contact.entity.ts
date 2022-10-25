@@ -1,21 +1,11 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne, OneToMany
-} from 'typeorm';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Contact } from '@interfaces/contact.interface';
-import {UserEntity} from "@entities/users.entity";
-import {PharmacyEntity} from "@entities/Pharmacy.entity";
+import { UserEntity } from '@entities/users.entity';
+import { PharmacyEntity } from '@entities/Pharmacy.entity';
 
 @Entity()
 export class ContactEntity extends BaseEntity implements Contact {
-
   @PrimaryGeneratedColumn()
   id: number;
 

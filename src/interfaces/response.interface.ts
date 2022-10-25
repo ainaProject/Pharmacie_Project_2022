@@ -1,7 +1,7 @@
 export interface ApiResponse {
   success: boolean;
   message?: string;
-  data?: DataApiResponse
+  data?: DataApiResponse;
 }
 
 export interface DataApiResponse {

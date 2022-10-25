@@ -1,4 +1,4 @@
-import {Movement} from "@interfaces/movement.interface";
+import { Movement } from '@interfaces/movement.interface';
 
 export interface MovementInvoice {
   id: number;

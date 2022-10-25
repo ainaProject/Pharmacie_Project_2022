@@ -1,7 +1,7 @@
-import {Contact} from "@interfaces/contact.interface";
-import {Role} from "@interfaces/role.interface";
-import {Status} from "@interfaces/status.interface";
-import {Pharmacy} from "@interfaces/pharmacy.interface";
+import { Contact } from '@interfaces/contact.interface';
+import { Role } from '@interfaces/role.interface';
+import { Status } from '@interfaces/status.interface';
+import { Pharmacy } from '@interfaces/pharmacy.interface';
 
 export interface User {
   id: number;

@@ -1,9 +1,8 @@
-import {IsNumber, IsObject, IsString} from 'class-validator';
-import {Pharmacy} from "@interfaces/pharmacy.interface";
-import {Category} from "@interfaces/category.interface";
+import { IsNumber, IsObject, IsString } from 'class-validator';
+import { Pharmacy } from '@interfaces/pharmacy.interface';
+import { Category } from '@interfaces/category.interface';
 
 export class CreateProductDto {
-
   @IsString()
   public designation: string;
 
@@ -16,6 +15,6 @@ export class CreateProductDto {
   @IsString()
   public description?: string;
 
-  @IsObject ()
+  @IsObject()
   pharmacy: Pharmacy;
 }

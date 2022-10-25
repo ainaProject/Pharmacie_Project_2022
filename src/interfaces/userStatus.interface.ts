@@ -1,4 +1,3 @@
-
 export interface UserStatus {
   id: number;
   designation?: string;

@@ -1,17 +1,8 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne, OneToMany
-} from 'typeorm';
-import {UserEntity} from "@entities/users.entity";
-import {MovementInvoice} from "@interfaces/movementInvoice.interface";
-import {MovementEntity} from "@entities/Movement.entity";
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { UserEntity } from '@entities/users.entity';
+import { MovementInvoice } from '@interfaces/movementInvoice.interface';
+import { MovementEntity } from '@entities/Movement.entity';
 
 @Entity()
 export class MovementInvoiceEntity extends BaseEntity implements MovementInvoice {

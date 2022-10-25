@@ -1,22 +1,21 @@
-import {IsNumber, IsObject, IsString} from 'class-validator';
-import {TypeMovement} from "@interfaces/TypeMovement.interface";
-import {User} from "@interfaces/users.interface";
-import {Status} from "@interfaces/status.interface";
+import { IsNumber, IsObject, IsString } from 'class-validator';
+import { TypeMovement } from '@interfaces/TypeMovement.interface';
+import { User } from '@interfaces/users.interface';
+import { Status } from '@interfaces/status.interface';
 
 export class CreateMovementDto {
-
   @IsString()
   public motif: string;
 
-  @IsObject ()
+  @IsObject()
   typeMovement: TypeMovement;
 
-  @IsObject ()
+  @IsObject()
   send: User;
 
-  @IsObject ()
+  @IsObject()
   receiver: User;
 
-  @IsObject ()
+  @IsObject()
   status: Status;
 }

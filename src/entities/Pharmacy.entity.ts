@@ -1,22 +1,13 @@
-import {IsEmpty, IsNotEmpty} from 'class-validator';
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  Unique,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne, OneToMany
-} from 'typeorm';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '@interfaces/users.interface';
-import {Contact} from "swagger-jsdoc";
-import {ContactEntity} from "@entities/Contact.entity";
-import {StatusEntity} from "@entities/Status.entity";
-import {TypePharmacyEntity} from "@entities/TypePharmacy.entity";
-import {Pharmacy} from "@interfaces/pharmacy.interface";
-import {UserEntity} from "@entities/users.entity";
-import {ProductEntity} from "@entities/Product.entity";
+import { Contact } from 'swagger-jsdoc';
+import { ContactEntity } from '@entities/Contact.entity';
+import { StatusEntity } from '@entities/Status.entity';
+import { TypePharmacyEntity } from '@entities/TypePharmacy.entity';
+import { Pharmacy } from '@interfaces/pharmacy.interface';
+import { UserEntity } from '@entities/users.entity';
+import { ProductEntity } from '@entities/Product.entity';
 
 @Entity()
 export class PharmacyEntity extends BaseEntity implements Pharmacy {
