@@ -4,6 +4,7 @@ import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
 import { CreateLoginDto } from '@/dtos/login.dto';
+import { token } from 'morgan';
 
 class AuthController {
   public authService = new AuthService();
@@ -25,7 +26,7 @@ class AuthController {
       const logInService: Object = await this.authService.login(userData);
 
       res.setHeader('Set-Cookie', logInService['cookie']);
-      res.status(200).json({ data: logInService['findUser'], message: 'login' });
+      res.status(200).json({ data: logInService, message: 'login' });
     } catch (error) {
       next(error);
     }
