@@ -8,6 +8,7 @@ import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import { CreateLoginDto } from '@/dtos/login.dto';
 
 @EntityRepository()
 class AuthService extends Repository<UserEntity> {
@@ -22,7 +23,7 @@ class AuthService extends Repository<UserEntity> {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: CreateLoginDto): Promise<{ cookie: string; findUser: User }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const findUser: User = await UserEntity.findOne({ where: { email: userData.email } });
