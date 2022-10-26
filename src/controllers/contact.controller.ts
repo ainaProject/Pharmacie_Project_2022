@@ -25,5 +25,19 @@ class ContactController extends BaseController {
       next(error);
     }
   };
+
+  public getContactById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const contactId = Number(req.params.id);
+
+      const findContact: Contact = await this.contactService.getContactById(contactId);
+
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', findContact, 1, null, null);
+
+      res.status(200).json({ data });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default ContactController;
