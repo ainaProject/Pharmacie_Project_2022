@@ -26,16 +26,20 @@ class AuthService extends Repository<UserEntity> {
   public async login(userData: CreateLoginDto): Promise<Object> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    const findUser: User = await UserEntity.findOne({ where: { email: userData.email } });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    const user: User = await UserEntity.findOne({ where: { email: userData.email }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
+    if (!user) throw new HttpException(409, `This email ${userData.email} was not found`);
 
-    const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
+    const isPasswordMatching: boolean = await compare(userData.password, user.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password not matching');
 
-    const tokenData = this.createToken(findUser);
+    const tokenData = this.createToken(user);
     const cookie = this.createCookie(tokenData);
-
-    return { cookie, findUser, tokenData };
+    const objectUser: Object = {
+      cookie: cookie,
+      user: user,
+      tokenData: tokenData,
+    };
+    return objectUser;
   }
 
   public async logout(userData: User): Promise<User> {

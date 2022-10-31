@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
+import { IsEmpty } from 'class-validator';
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Contact } from '@interfaces/contact.interface';
 import { UserEntity } from '@entities/users.entity';
@@ -11,12 +11,10 @@ export class ContactEntity extends BaseEntity implements Contact {
 
   @Column()
   @IsEmpty()
-  @Unique(['email'])
   email: string;
 
   @Column()
   @IsEmpty()
-  @Unique(['telephone'])
   telephone: string;
 
   @Column()

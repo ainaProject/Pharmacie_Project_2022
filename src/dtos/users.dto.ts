@@ -18,14 +18,14 @@ export class CreateUserDto {
   public password: string;
 
   @IsObject()
-  public contact?: Contact;
+  public contact: Object;
 
   @IsObject()
-  public userStatus: UserStatus;
+  public userStatus: Object;
 
   @IsObject()
-  public status?: Status;
+  public status?: Object;
 
   @IsObject()
-  public pharmacy?: Pharmacy;
+  public pharmacy?: Object;
 }

@@ -54,9 +54,9 @@ class ContactController extends BaseController {
   public deleteContact = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const contactId = Number(req.params.id);
-      const deleteProduitData: Object = await this.contactService.deleteContact(contactId);
+      const deleteContactData: Object = await this.contactService.deleteContact(contactId);
 
-      res.status(200).json({ data: deleteProduitData, message: 'deleted success' });
+      res.status(200).json({ data: deleteContactData, message: 'deleted success' });
     } catch (error) {
       next(error);
     }

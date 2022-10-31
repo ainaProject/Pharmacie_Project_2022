@@ -50,5 +50,13 @@ class ContactService extends Repository<ContactEntity> {
     await ContactEntity.delete({ id: contactId });
     return { success: true };
   }
+
+  public async createContact(contactData: CreateContactDto): Promise<Contact> {
+    if (isEmpty(contactData)) throw new HttpException(400, 'userData is empty');
+
+    const createContacte: Contact = await ContactEntity.create({ ...contactData }).save();
+
+    return createContacte;
+  }
 }
 export default ContactService;
