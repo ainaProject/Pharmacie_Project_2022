@@ -2,9 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
+import { CreateContactDto } from '@/dtos/contact.dto';
+import { Contact } from 'swagger-jsdoc';
+import ContactService from '@/services/contact.service';
 
 class UsersController {
   public userService = new userService();
+  public contactService = new ContactService();
 
   public getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -29,7 +33,21 @@ class UsersController {
 
   public createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: CreateUserDto = req.body;
+      const contact: CreateContactDto = req.body.contact;
+      const createContact: Contact = await this.contactService.createContact(contact);
+      const findContact: Contact = await this.contactService.getContactById(createContact.id);
+
+      const userData: CreateUserDto = {
+        name: req.body.name,
+        first_name: req.body.first_name,
+        email: req.body.email,
+        password: req.body.password,
+        contact: findContact,
+        userStatus: req.body.userStatus,
+        status: req.body.status,
+        pharmacy: req.body.pharmacy,
+      };
+
       const createUserData: User = await this.userService.createUser(userData);
 
       res.status(201).json({ data: createUserData, message: 'created' });

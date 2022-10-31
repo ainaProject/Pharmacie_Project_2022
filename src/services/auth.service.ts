@@ -8,6 +8,7 @@ import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import { CreateLoginDto } from '@/dtos/login.dto';
 
 @EntityRepository()
 class AuthService extends Repository<UserEntity> {
@@ -22,19 +23,23 @@ class AuthService extends Repository<UserEntity> {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: CreateLoginDto): Promise<Object> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    const findUser: User = await UserEntity.findOne({ where: { email: userData.email } });
-    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    const user: User = await UserEntity.findOne({ where: { email: userData.email }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
+    if (!user) throw new HttpException(409, `This email ${userData.email} was not found`);
 
-    const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
+    const isPasswordMatching: boolean = await compare(userData.password, user.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password not matching');
 
-    const tokenData = this.createToken(findUser);
+    const tokenData = this.createToken(user);
     const cookie = this.createCookie(tokenData);
-
-    return { cookie, findUser };
+    const objectUser: Object = {
+      cookie: cookie,
+      user: user,
+      tokenData: tokenData,
+    };
+    return objectUser;
   }
 
   public async logout(userData: User): Promise<User> {
@@ -49,7 +54,7 @@ class AuthService extends Repository<UserEntity> {
   public createToken(user: User): TokenData {
     const dataStoredInToken: DataStoredInToken = { id: user.id };
     const secretKey: string = SECRET_KEY;
-    const expiresIn: number = 60 * 60;
+    const expiresIn: number = 60 * 3600;
 
     return { expiresIn, token: sign(dataStoredInToken, secretKey, { expiresIn }) };
   }

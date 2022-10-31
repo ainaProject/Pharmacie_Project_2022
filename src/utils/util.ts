@@ -17,3 +17,10 @@ export const isEmpty = (value: string | number | object): boolean => {
     return false;
   }
 };
+
+export const ValueStatus = {
+  active: 'ACT',
+  inactif: 'ICT',
+  encours: 'ENC',
+  valide: 'VLD',
+};

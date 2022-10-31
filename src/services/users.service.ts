@@ -5,18 +5,20 @@ import { UserEntity } from '@entities/users.entity';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import { StatusEntity } from '@/entities/Status.entity';
+import { Status } from '@/interfaces/status.interface';
 
 @EntityRepository()
 class UserService extends Repository<UserEntity> {
   public async findAllUser(): Promise<User[]> {
-    const users: User[] = await UserEntity.find();
+    const users: User[] = await UserEntity.find({ where: {}, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
     return users;
   }
 
   public async findUserById(userId: number): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
 
-    const findUser: User = await UserEntity.findOne({ where: { id: userId } });
+    const findUser: User = await UserEntity.findOne({ where: { id: userId }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;
@@ -43,6 +45,30 @@ class UserService extends Repository<UserEntity> {
     const hashedPassword = await hash(userData.password, 10);
     await UserEntity.update(userId, { ...userData, password: hashedPassword });
 
+    const updateUser: User = await UserEntity.findOne({ where: { id: userId } });
+    return updateUser;
+  }
+
+  public async updateStatusUser(userId: number, cd: string): Promise<User> {
+    const findUser: User = await UserEntity.findOne({ where: { id: userId }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
+    const status: any = await StatusEntity.findAndCount({
+      where: { code: cd },
+      take: 1,
+    });
+
+    const objectUser: CreateUserDto = {
+      name: findUser.name,
+      first_name: findUser.first_name,
+      email: findUser.email,
+      password: findUser.password,
+      contact: findUser.contact,
+      userStatus: findUser.userStatus,
+      status: status[0][0],
+      pharmacy: findUser.pharmacy,
+    };
+
+    await UserEntity.update(userId, { ...objectUser });
     const updateUser: User = await UserEntity.findOne({ where: { id: userId } });
     return updateUser;
   }
