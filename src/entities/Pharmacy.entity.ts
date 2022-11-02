@@ -1,7 +1,5 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { User } from '@interfaces/users.interface';
-import { Contact } from 'swagger-jsdoc';
+import { IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { ContactEntity } from '@entities/Contact.entity';
 import { StatusEntity } from '@entities/Status.entity';
 import { TypePharmacyEntity } from '@entities/TypePharmacy.entity';

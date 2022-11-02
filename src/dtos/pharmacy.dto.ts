@@ -1,18 +1,15 @@
-import { IsEmail, IsObject, IsString } from 'class-validator';
-import { Contact } from '@interfaces/contact.interface';
-import { Status } from '@interfaces/status.interface';
-import { TypePharmacy } from '@interfaces/TypePharmacy.interface';
+import { IsObject, IsString } from 'class-validator';
 
 export class CreatePharmacyDto {
   @IsString()
   public designation: string;
 
   @IsObject()
-  public contact?: Contact;
+  public contact?: Object;
 
   @IsObject()
-  public status?: Status;
+  public status?: Object;
 
   @IsObject()
-  public typePharmacy?: TypePharmacy;
+  public typePharmacy: Object;
 }

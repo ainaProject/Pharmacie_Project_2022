@@ -5,7 +5,6 @@ import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
 import { CreateLoginDto } from '@/dtos/login.dto';
 import { token } from 'morgan';
-import VarConst from '@/utils/var_const';
 import UserService from '@/services/users.service';
 import { ValueStatus } from '@/utils/util';
 
