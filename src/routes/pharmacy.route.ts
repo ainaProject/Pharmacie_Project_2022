@@ -16,7 +16,7 @@ class PharmacyRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, adminAuthMiddleware, this.pharmacyController.getAllPharmacy);
+    this.router.get(`${this.path}`, this.pharmacyController.getAllPharmacy);
     this.router.get(`${this.path}/:id(\\d+)`, adminAuthMiddleware, this.pharmacyController.getPharmacyById);
     this.router.post(`${this.path}`, adminAuthMiddleware, validationMiddleware(CreatePharmacyDto, 'body'), this.pharmacyController.createPharmacy);
     this.router.put(

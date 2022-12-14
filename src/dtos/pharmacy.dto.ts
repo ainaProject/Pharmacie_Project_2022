@@ -13,3 +13,14 @@ export class CreatePharmacyDto {
   @IsObject()
   public typePharmacy: Object;
 }
+
+export class uptadePharmacyDto {
+  @IsString()
+  public designation: string;
+
+  @IsObject()
+  public status?: Object;
+
+  @IsObject()
+  public typePharmacy: Object;
+}

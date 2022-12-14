@@ -6,17 +6,27 @@ import { Contact } from 'swagger-jsdoc';
 import ContactService from '@/services/contact.service';
 import { Pharmacy } from '@/interfaces/pharmacy.interface';
 import PharmacyService from '@/services/pharmacy.service';
-import { CreatePharmacyDto } from '@/dtos/pharmacy.dto';
+import { CreatePharmacyDto, uptadePharmacyDto } from '@/dtos/pharmacy.dto';
+import Helper from '@/utils/helper';
+import { ApiResponse } from '@/interfaces/response.interface';
+import BaseController from './BaseController.controller';
 
-class PharmacyController {
+class PharmacyController extends BaseController {
   public pharmacyService = new PharmacyService();
   public contactService = new ContactService();
+  public helper = new Helper();
 
   public getAllPharmacy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllPharmacyData: Pharmacy[] = await this.pharmacyService.findAllPharmacy();
+      const limit: number = +req.query.limit;
+      const page: number = +req.query.page;
+      const offset: number = await this.helper.calculOffset(limit, page);
 
-      res.status(200).json({ data: findAllPharmacyData, message: 'findAll' });
+      const findAllPharmacy: Pharmacy[] = await this.pharmacyService.findAllPharmacy(null, null);
+      const findAllPharmacyData: Pharmacy[] = await this.pharmacyService.findAllPharmacy(limit, offset);
+
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', findAllPharmacyData, findAllPharmacy.length, limit, page);
+      res.status(200).json({ data });
     } catch (error) {
       next(error);
     }
@@ -45,7 +55,7 @@ class PharmacyController {
         contact: findContact,
         status: req.body.status,
       };
-      console.log(pharmacyData);
+
       const createPharmacyData: Pharmacy = await this.pharmacyService.createPharmacy(pharmacyData);
 
       res.status(201).json({ data: createPharmacyData, message: 'created' });
@@ -56,8 +66,12 @@ class PharmacyController {
 
   public updatePharmacy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      const contactId = Number(req.body.contact.id);
+      const contactData: CreateContactDto = req.body.contact;
+      await this.contactService.updateContact(contactId, contactData);
+
       const pharmacyId = Number(req.params.id);
-      const pharmacyData: CreatePharmacyDto = req.body;
+      const pharmacyData: uptadePharmacyDto = req.body;
       const updatePharmacyData: Pharmacy = await this.pharmacyService.updatePharmacy(pharmacyId, pharmacyData);
 
       res.status(200).json({ data: updatePharmacyData, message: 'updated' });

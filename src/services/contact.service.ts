@@ -1,7 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { ContactEntity } from '@entities/Contact.entity';
 import { Contact } from '@interfaces/contact.interface';
-import { User } from '@/interfaces/users.interface';
 import { CreateContactDto } from '@/dtos/contact.dto';
 import { HttpException } from '@/exceptions/HttpException';
 import { isEmpty } from 'class-validator';
@@ -29,8 +28,6 @@ class ContactService extends Repository<ContactEntity> {
   }
 
   public async updateContact(contactId: number, contactData: CreateContactDto): Promise<Contact> {
-    if (isEmpty(contactData)) throw new HttpException(400, 'contactId not found');
-
     const findContact: Contact = await ContactEntity.findOne({ where: { id: contactId } });
     if (!findContact) throw new HttpException(409, 'contact not found');
 
