@@ -37,7 +37,8 @@ class PharmacyController extends BaseController {
       const pharmacyId = Number(req.params.id);
       const findOnePharmacyData: Pharmacy = await this.pharmacyService.findPharmacyById(pharmacyId);
 
-      res.status(200).json({ data: findOnePharmacyData, message: 'findOne' });
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', findOnePharmacyData, 1, null, 1);
+      res.status(200).json({ data });
     } catch (error) {
       next(error);
     }

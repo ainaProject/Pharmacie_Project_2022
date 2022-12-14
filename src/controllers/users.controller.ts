@@ -5,16 +5,26 @@ import userService from '@services/users.service';
 import { CreateContactDto } from '@/dtos/contact.dto';
 import { Contact } from 'swagger-jsdoc';
 import ContactService from '@/services/contact.service';
+import BaseController from './BaseController.controller';
+import Helper from '@/utils/helper';
+import { ApiResponse } from '@/interfaces/response.interface';
 
-class UsersController {
+class UsersController extends BaseController {
   public userService = new userService();
   public contactService = new ContactService();
+  public helper = new Helper();
 
   public getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
+      const limit: number = +req.query.limit;
+      const page: number = +req.query.page;
+      const offset: number = await this.helper.calculOffset(limit, page);
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      const findAllUsers: User[] = await this.userService.findAllUser(null, null);
+      const findAllUsersData: User[] = await this.userService.findAllUser(limit, offset);
+
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', findAllUsersData, findAllUsers.length, limit, page);
+      res.status(200).json({ data });
     } catch (error) {
       next(error);
     }
@@ -25,7 +35,8 @@ class UsersController {
       const userId = Number(req.params.id);
       const findOneUserData: User = await this.userService.findUserById(userId);
 
-      res.status(200).json({ data: findOneUserData, message: 'findOne' });
+      const data: ApiResponse = await this.response(true, 'Get One Datas success', findOneUserData, 1, null, 1);
+      res.status(200).json({ data });
     } catch (error) {
       next(error);
     }

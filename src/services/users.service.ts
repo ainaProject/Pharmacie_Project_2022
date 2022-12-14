@@ -10,9 +10,21 @@ import { Status } from '@/interfaces/status.interface';
 
 @EntityRepository()
 class UserService extends Repository<UserEntity> {
-  public async findAllUser(): Promise<User[]> {
-    const users: User[] = await UserEntity.find({ where: {}, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
-    return users;
+  public async findAllUser(limit: number, offset: number): Promise<User[]> {
+    if (limit === null || offset === null) {
+      const users: User[] = await UserEntity.find({ where: {}, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
+
+      return users;
+    } else {
+      const users: User[] = await UserEntity.find({
+        where: {},
+        relations: ['pharmacy', 'contact', 'userStatus', 'status'],
+        take: limit,
+        skip: offset,
+      });
+
+      return users;
+    }
   }
 
   public async findUserById(userId: number): Promise<User> {
