@@ -1,6 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
-import { User } from '@interfaces/users.interface';
 import { CreateContactDto } from '@/dtos/contact.dto';
 import { Contact } from 'swagger-jsdoc';
 import ContactService from '@/services/contact.service';
@@ -85,6 +83,9 @@ class PharmacyController extends BaseController {
     try {
       const pharmacyId = Number(req.params.id);
       const deletePharmacyData: Pharmacy = await this.pharmacyService.deletePharmacy(pharmacyId);
+
+      const contectId = Number(req.body.contact.id);
+      await this.contactService.deleteContact(contectId);
 
       res.status(200).json({ data: deletePharmacyData, message: 'deleted' });
     } catch (error) {
