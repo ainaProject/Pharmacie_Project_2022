@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 import PharmacyController from '@/controllers/pharmacy.controller';
 import adminAuthMiddleware from '@/middlewares/admin.middleware';
-import { CreatePharmacyDto } from '@/dtos/pharmacy.dto';
+import { CreatePharmacyDto, uptadePharmacyDto } from '@/dtos/pharmacy.dto';
+import authMiddleware from '@/middlewares/auth.middleware';
 
 class PharmacyRoute implements Routes {
   public path = '/pharmacy';
@@ -16,9 +16,9 @@ class PharmacyRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.pharmacyController.getAllPharmacy);
-    this.router.get(`${this.path}/:id(\\d+)`, adminAuthMiddleware, this.pharmacyController.getPharmacyById);
-    this.router.post(`${this.path}`, adminAuthMiddleware, validationMiddleware(CreatePharmacyDto, 'body'), this.pharmacyController.createPharmacy);
+    this.router.get(`${this.path}`, authMiddleware, this.pharmacyController.getAllPharmacy);
+    this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.pharmacyController.getPharmacyById);
+    this.router.post(`${this.path}`, validationMiddleware(CreatePharmacyDto, 'body'), this.pharmacyController.createPharmacy);
     this.router.put(
       `${this.path}/:id(\\d+)`,
       adminAuthMiddleware,

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, updateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
 import { CreateContactDto } from '@/dtos/contact.dto';
@@ -8,6 +8,12 @@ import ContactService from '@/services/contact.service';
 import BaseController from './BaseController.controller';
 import Helper from '@/utils/helper';
 import { ApiResponse } from '@/interfaces/response.interface';
+import * as bcrypt from 'bcrypt';
+import { SECRET_KEY } from '@/config';
+import { verify } from 'jsonwebtoken';
+import { DataStoredInToken } from '@/interfaces/auth.interface';
+import { UserEntity } from '@/entities/users.entity';
+import { HttpException } from '@/exceptions/HttpException';
 
 class UsersController extends BaseController {
   public userService = new userService();
@@ -19,14 +25,35 @@ class UsersController extends BaseController {
       const limit: number = +req.query.limit;
       const page: number = +req.query.page;
       const offset: number = await this.helper.calculOffset(limit, page);
-
-      const findAllUsers: User[] = await this.userService.findAllUser(null, null);
-      const findAllUsersData: User[] = await this.userService.findAllUser(limit, offset);
-
-      const data: ApiResponse = await this.response(true, 'Get All Datas success', findAllUsersData, findAllUsers.length, limit, page);
-      res.status(200).json({ data });
+      await this.getWithUserStatus(req, res, limit, page, offset);
     } catch (error) {
       next(error);
+    }
+  };
+
+  public getWithUserStatus = async (req: Request, res: Response, limit: number, page: number, offset: number): Promise<void> => {
+    const Authorization = req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null;
+    const secretKey: string = SECRET_KEY;
+    const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
+    const findUser = await UserEntity.findOne({ where: { id: id }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
+    const userStatus: string = findUser.userStatus.code;
+
+    if (userStatus === 'ADM') {
+      const { user, count } = await this.userService.findAllUser(limit, offset);
+      const totalRows: number = count;
+      const users: User[] = user;
+
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+      res.status(200).json({ data });
+    } else {
+      const idPharmacy = findUser.pharmacy.id;
+      const { user, count } = await this.userService.findAllUserWithCondition(limit, offset, idPharmacy);
+      const totalRows: number = count;
+      const users: User[] = user;
+
+      const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+
+      res.status(200).json({ data });
     }
   };
 
@@ -69,8 +96,13 @@ class UsersController extends BaseController {
 
   public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      const contactId = Number(req.body.contact.id);
+      const contactData: CreateContactDto = req.body.contact;
+      await this.contactService.updateContact(contactId, contactData);
+
       const userId = Number(req.params.id);
-      const userData: CreateUserDto = req.body;
+      const userData: updateUserDto = req.body.user;
+
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
       res.status(200).json({ data: updateUserData, message: 'updated' });

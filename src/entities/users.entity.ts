@@ -17,8 +17,8 @@ import {StatusEntity} from "@entities/Status.entity";
 import {Status} from "@interfaces/status.interface";
 import {PharmacyEntity} from "@entities/Pharmacy.entity";
 import {MovementEntity} from "@entities/Movement.entity";
-import {ActiveRoleEntity} from "@entities/ActiveRole.entity";
 import {PresenceEntity} from "@entities/Presence.entity";
+import { PosteEntity } from './Poste.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -63,6 +63,9 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
   public pharmacy: PharmacyEntity;
+
+  @ManyToOne(() => PosteEntity, (poste: PosteEntity) => poste.user)
+  public poste: PosteEntity;
 //---------------------One To Many Relations------------------------------------------------
   @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.send)
   public movement: MovementEntity[];
@@ -72,9 +75,6 @@ export class UserEntity extends BaseEntity implements User {
 
   @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.validate)
   public movement_3: MovementEntity[];
-
-  @OneToMany(() => ActiveRoleEntity, (activeRole: ActiveRoleEntity) => activeRole.user)
-  public activeRole: ActiveRoleEntity[];
 
   @OneToMany(() => PresenceEntity, (presence: PresenceEntity) => presence.user)
   public presence: PresenceEntity[];
