@@ -8,12 +8,10 @@ import ContactService from '@/services/contact.service';
 import BaseController from './BaseController.controller';
 import Helper from '@/utils/helper';
 import { ApiResponse } from '@/interfaces/response.interface';
-import * as bcrypt from 'bcrypt';
 import { SECRET_KEY } from '@/config';
 import { verify } from 'jsonwebtoken';
 import { DataStoredInToken } from '@/interfaces/auth.interface';
 import { UserEntity } from '@/entities/users.entity';
-import { HttpException } from '@/exceptions/HttpException';
 
 class UsersController extends BaseController {
   public userService = new userService();
