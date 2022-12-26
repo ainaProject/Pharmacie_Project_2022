@@ -6,4 +6,7 @@ export class CreatePosteDto {
 
   @IsObject()
   public pharmacyId: Object;
+
+  @IsString()
+  public indexs: string;
 }

@@ -2,7 +2,7 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Colum
 import { PharmacyEntity } from '@entities/Pharmacy.entity';
 import { Poste } from '@/interfaces/poste.interface';
 import { UserEntity } from './users.entity';
-import { IsNotEmpty } from 'class-validator';
+import { IsEmpty, IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class PosteEntity extends BaseEntity implements Poste {
@@ -18,4 +18,8 @@ export class PosteEntity extends BaseEntity implements Poste {
 
   @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.poste)
   public pharmacy: PharmacyEntity;
+
+  @Column()
+  @IsEmpty()
+  indexs: string;
 }

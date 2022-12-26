@@ -2,6 +2,7 @@ import { Contact } from '@interfaces/contact.interface';
 import { Status } from '@interfaces/status.interface';
 import { Pharmacy } from '@interfaces/pharmacy.interface';
 import { UserStatus } from './userStatus.interface';
+import { Poste } from './poste.interface';
 
 export interface User {
   id: number;
@@ -13,4 +14,5 @@ export interface User {
   status?: Status;
   pharmacy?: Pharmacy;
   userStatus?: UserStatus;
+  poste: Poste;
 }

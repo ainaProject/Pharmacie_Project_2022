@@ -24,6 +24,9 @@ export class CreateUserDto {
 
   @IsObject()
   public pharmacy?: Object;
+
+  @IsObject()
+  public poste?: Object;
 }
 
 export class updateUserDto {

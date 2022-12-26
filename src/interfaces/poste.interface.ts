@@ -4,4 +4,5 @@ export interface Poste {
   id: number;
   designation: string;
   pharmacy?: Pharmacy;
+  indexs?: string;
 }
