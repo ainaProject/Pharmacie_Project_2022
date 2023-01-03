@@ -70,26 +70,17 @@ class UserService extends Repository<UserEntity> {
   }
 
   public async updateStatusUser(userId: number, cd: string): Promise<User> {
-    const findUser: User = await UserEntity.findOne({ where: { id: userId }, relations: ['pharmacy', 'contact', 'userStatus', 'status', 'poste'] });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
     const status: any = await StatusEntity.findAndCount({
       where: { code: cd },
       take: 1,
     });
 
-    const objectUser: CreateUserDto = {
-      name: findUser.name,
-      first_name: findUser.first_name,
-      email: findUser.email,
-      password: findUser.password,
-      contact: findUser.contact,
-      userStatus: findUser.userStatus,
+    const objectUser: object = {
       status: status[0][0],
-      pharmacy: findUser.pharmacy,
     };
 
     await UserEntity.update(userId, { ...objectUser });
-    const updateUser: User = await UserEntity.findOne({ where: { id: userId } });
+    const updateUser: User = await UserEntity.findOne({ where: { id: userId }, relations: ['pharmacy', 'contact', 'userStatus', 'status', 'poste'] });
     return updateUser;
   }
 

@@ -20,7 +20,8 @@ export const isEmpty = (value: string | number | object): boolean => {
 
 export const ValueStatus = {
   active: 'ACT',
-  inactif: 'ICT',
+  inactif: 'IACT',
   encours: 'ENC',
   valide: 'VLD',
+  termine: 'TRM',
 };

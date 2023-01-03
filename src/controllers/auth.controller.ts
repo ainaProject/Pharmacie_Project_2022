@@ -4,7 +4,6 @@ import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
 import { CreateLoginDto } from '@/dtos/login.dto';
-import { token } from 'morgan';
 import UserService from '@/services/users.service';
 import { ValueStatus } from '@/utils/util';
 
@@ -26,11 +25,16 @@ class AuthController {
     try {
       const userData: CreateLoginDto = req.body;
       const logInService: any = await this.authService.login(userData);
-      const user_id: number = logInService.user.id;
-      const actifStatus = ValueStatus.active;
-      await this.userService.updateStatusUser(user_id, await actifStatus);
-      res.setHeader('Set-Cookie', logInService['cookie']);
-      res.status(200).json({ data: logInService, message: 'login' });
+
+      if (logInService.success === false) {
+        res.status(409).json({ message: logInService.message, success: false });
+      } else {
+        const user_id: number = logInService.user.id;
+        const actifStatus = ValueStatus.active;
+        await this.userService.updateStatusUser(user_id, await actifStatus);
+        res.setHeader('Set-Cookie', logInService['cookie']);
+        res.status(200).json({ data: logInService, message: 'login', success: true });
+      }
     } catch (error) {
       next(error);
     }
@@ -38,12 +42,12 @@ class AuthController {
 
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: User = req.user;
-      const logOutUserData: User = await this.authService.logout(userData);
+      const userId: number = req.body.id;
       const inactifStatus = ValueStatus.inactif;
-      await this.userService.updateStatusUser(logOutUserData.id, await inactifStatus);
+
+      await this.userService.updateStatusUser(userId, await inactifStatus);
       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(200).json({ data: logOutUserData, message: 'logout' });
+      res.status(200).json({ message: 'logout success', success: true });
     } catch (error) {
       next(error);
     }
