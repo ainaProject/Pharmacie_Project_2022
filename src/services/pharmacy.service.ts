@@ -8,7 +8,18 @@ import { CreatePharmacyDto } from '@/dtos/pharmacy.dto';
 
 @EntityRepository()
 class PharmacyService extends Repository<UserEntity> {
-  public async findAllPharmacy(limit: number, offset: number): Promise<Pharmacy[]> {
+  public async findAllPharmacy(limit: number, offset: number, key: string): Promise<Pharmacy[]> {
+    if (key == null) {
+      const pharmacy: Pharmacy[] = await this.getAllPharmacyData(limit, offset);
+      return pharmacy;
+    } else {
+      const pharmacy: Pharmacy[] = await this.searchPharmacy(limit, offset, key);
+
+      return pharmacy;
+    }
+  }
+
+  public async getAllPharmacyData(limit: number, offset: number) {
     if (limit != null || offset != null) {
       const pharmacy: Pharmacy[] = await PharmacyEntity.find({
         where: {},
@@ -26,6 +37,19 @@ class PharmacyService extends Repository<UserEntity> {
 
       return pharmacy;
     }
+  }
+
+  public async searchPharmacy(limit: number, offset: number, key: string) {
+    const pharmacy: Pharmacy[] = await PharmacyEntity.createQueryBuilder('ph') // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+      .leftJoinAndSelect('ph.contact', 'ct')
+      .leftJoinAndSelect('ph.status', 'st')
+      .leftJoinAndSelect('ph.typePharmacy', 'tp')
+      .where('LOWER(ph.designation) LIKE :designation', { designation: `%${key.toLowerCase()}%` })
+      .orWhere('LOWER(ct.location) LIKE :location', { location: `%${key.toLowerCase()}%` })
+      .orWhere('LOWER(ct.country) LIKE :country', { country: `%${key.toLowerCase()}%` })
+      .getMany();
+
+    return pharmacy;
   }
 
   public async findPharmacyById(pharmacyId: number): Promise<Pharmacy> {

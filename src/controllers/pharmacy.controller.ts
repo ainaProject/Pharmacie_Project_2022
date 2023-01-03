@@ -18,13 +18,21 @@ class PharmacyController extends BaseController {
     try {
       const limit: number = +req.query.limit;
       const page: number = +req.query.page;
+      const keys: string = '' + req.query.key;
       const offset: number = await this.helper.calculOffset(limit, page);
 
-      const findAllPharmacy: Pharmacy[] = await this.pharmacyService.findAllPharmacy(null, null);
-      const findAllPharmacyData: Pharmacy[] = await this.pharmacyService.findAllPharmacy(limit, offset);
+      if (keys != '') {
+        const findSearchPharmacy: Pharmacy[] = await this.pharmacyService.findAllPharmacy(null, null, null);
+        const findSearchPharmacyData: Pharmacy[] = await this.pharmacyService.findAllPharmacy(limit, offset, keys);
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', findSearchPharmacyData, findSearchPharmacy.length, limit, page);
+        res.status(200).json({ data });
+      } else {
+        const findAllPharmacy: Pharmacy[] = await this.pharmacyService.findAllPharmacy(null, null, null);
+        const findAllPharmacyData: Pharmacy[] = await this.pharmacyService.findAllPharmacy(limit, offset, null);
 
-      const data: ApiResponse = await this.response(true, 'Get All Datas success', findAllPharmacyData, findAllPharmacy.length, limit, page);
-      res.status(200).json({ data });
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', findAllPharmacyData, findAllPharmacy.length, limit, page);
+        res.status(200).json({ data });
+      }
     } catch (error) {
       next(error);
     }
