@@ -7,6 +7,7 @@ import { Pharmacy } from '@interfaces/pharmacy.interface';
 import { UserEntity } from '@entities/users.entity';
 import { ProductEntity } from '@entities/Product.entity';
 import { PosteEntity } from './Poste.entity';
+import { CategoryEntity } from './Category.entity';
 
 @Entity()
 export class PharmacyEntity extends BaseEntity implements Pharmacy {
@@ -34,4 +35,7 @@ export class PharmacyEntity extends BaseEntity implements Pharmacy {
 
   @OneToMany(() => PosteEntity, (poste: PosteEntity) => poste.pharmacy)
   public poste: PosteEntity[];
+
+  @OneToMany(() => CategoryEntity, (category: CategoryEntity) => category.pharmacy)
+  public category: CategoryEntity[];
 }

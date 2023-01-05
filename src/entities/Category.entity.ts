@@ -1,7 +1,8 @@
 import { IsEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { Category } from '@interfaces/category.interface';
 import { ProductEntity } from '@entities/Product.entity';
+import { PharmacyEntity } from './Pharmacy.entity';
 
 @Entity()
 export class CategoryEntity extends BaseEntity implements Category {
@@ -18,4 +19,7 @@ export class CategoryEntity extends BaseEntity implements Category {
 
   @OneToMany(() => ProductEntity, (product: ProductEntity) => product.category)
   public product: ProductEntity[];
+
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.category)
+  public pharmacy: PharmacyEntity;
 }

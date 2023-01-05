@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsObject, IsString } from 'class-validator';
 
 export class CreateCategoryDto {
   @IsString()
@@ -6,4 +6,7 @@ export class CreateCategoryDto {
 
   @IsString()
   public code?: string;
+
+  @IsObject()
+  public pharmacy?: object;
 }
