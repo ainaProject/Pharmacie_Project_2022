@@ -22,7 +22,7 @@ class PharmacyController extends BaseController {
       const offset: number = await this.helper.calculOffset(limit, page);
 
       if (keys != '') {
-        const { pharmacy, count } = await this.pharmacyService.findAllPharmacy(limit, offset, null);
+        const { pharmacy, count } = await this.pharmacyService.findAllPharmacy(limit, offset, keys);
         const totalRows: number = count;
         const pharmacys: Pharmacy[] = pharmacy;
 
@@ -30,7 +30,7 @@ class PharmacyController extends BaseController {
 
         res.status(200).json({ data });
       } else {
-        const { pharmacy, count } = await this.pharmacyService.findAllPharmacy(limit, offset, keys);
+        const { pharmacy, count } = await this.pharmacyService.findAllPharmacy(limit, offset, null);
         const totalRows: number = count;
         const pharmacys: Pharmacy[] = pharmacy;
 

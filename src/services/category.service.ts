@@ -1,7 +1,4 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { ContactEntity } from '@entities/Contact.entity';
-import { Contact } from '@interfaces/contact.interface';
-import { CreateContactDto } from '@/dtos/contact.dto';
 import { HttpException } from '@/exceptions/HttpException';
 import { Category } from '@/interfaces/category.interface';
 import { CreateCategoryDto } from '@/dtos/category.dto';

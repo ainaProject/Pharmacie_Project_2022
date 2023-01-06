@@ -27,26 +27,6 @@ class PharmacyService extends Repository<UserEntity> {
     }
   }
 
-  public async getAllPharmacyData(limit: number, offset: number) {
-    if (limit != null || offset != null) {
-      const pharmacy: Pharmacy[] = await PharmacyEntity.find({
-        where: {},
-        relations: ['typePharmacy', 'contact', 'status'],
-        take: limit,
-        skip: offset,
-      });
-
-      return pharmacy;
-    } else {
-      const pharmacy: Pharmacy[] = await PharmacyEntity.find({
-        where: {},
-        relations: ['typePharmacy', 'contact', 'status'],
-      });
-
-      return pharmacy;
-    }
-  }
-
   public async searchPharmacy(limit: number, offset: number, key: string): Promise<{ pharmacy: Pharmacy[]; count: number }> {
     const [pharmacy, count]: [Pharmacy[], number] = await PharmacyEntity.createQueryBuilder('ph') // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
       .leftJoinAndSelect('ph.contact', 'ct')
@@ -55,6 +35,8 @@ class PharmacyService extends Repository<UserEntity> {
       .where('LOWER(ph.designation) LIKE :designation', { designation: `%${key.toLowerCase()}%` })
       .orWhere('LOWER(ct.location) LIKE :location', { location: `%${key.toLowerCase()}%` })
       .orWhere('LOWER(ct.country) LIKE :country', { country: `%${key.toLowerCase()}%` })
+      .limit(limit ? limit : 0)
+      .offset(offset ? offset : 0)
       .getManyAndCount();
 
     return { pharmacy, count };
