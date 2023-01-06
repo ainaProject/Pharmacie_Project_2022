@@ -9,21 +9,67 @@ import { StatusEntity } from '@/entities/Status.entity';
 
 @EntityRepository()
 class UserService extends Repository<UserEntity> {
-  public async findAllUser(limit: number, offset: number): Promise<{ user: User[]; count: number }> {
-    const [user, count]: [User[], number] = await UserEntity.createQueryBuilder('qb')
-      .leftJoinAndSelect('qb.pharmacy', 'ph')
-      .leftJoinAndSelect('qb.contact', 'ct')
-      .leftJoinAndSelect('qb.userStatus', 'ust')
-      .leftJoinAndSelect('qb.status', 'st')
-      .leftJoinAndSelect('qb.poste', 'ps')
+  public async findAllUser(limit: number, offset: number, key: string): Promise<{ user: User[]; count: number }> {
+    if (key == null) {
+      const [user, count]: [User[], number] = await UserEntity.createQueryBuilder('qb')
+        .leftJoinAndSelect('qb.pharmacy', 'ph')
+        .leftJoinAndSelect('qb.contact', 'ct')
+        .leftJoinAndSelect('qb.userStatus', 'ust')
+        .leftJoinAndSelect('qb.status', 'st')
+        .leftJoinAndSelect('qb.poste', 'ps')
+        .limit(limit ? limit : 0)
+        .offset(offset ? offset : 0)
+        .orderBy('qb.id', 'ASC')
+        .getManyAndCount();
+
+      return { user, count };
+    } else {
+      const { user, count } = await this.searchUserNoCondition(limit, offset, key);
+
+      return { user, count };
+    }
+  }
+
+  public async findAllUserWithCondition(limit: number, offset: number, idPharmacy: number, key: string): Promise<{ user: User[]; count: number }> {
+    if (key == null) {
+      const [user, count]: [User[], number] = await UserEntity.createQueryBuilder('qb')
+        .leftJoinAndSelect('qb.pharmacy', 'ph')
+        .leftJoinAndSelect('qb.contact', 'ct')
+        .leftJoinAndSelect('qb.userStatus', 'ust')
+        .leftJoinAndSelect('qb.status', 'st')
+        .leftJoinAndSelect('qb.poste', 'ps')
+        .where('ph.id = :id', { id: idPharmacy })
+        .limit(limit ? limit : 0)
+        .offset(offset ? offset : 0)
+        .orderBy('qb.id', 'ASC')
+        .getManyAndCount();
+
+      return { user, count };
+    } else {
+      const { user, count } = await this.searchUserWithCondition(limit, offset, idPharmacy, key);
+
+      return { user, count };
+    }
+  }
+
+  public async searchUserNoCondition(limit: number, offset: number, key: string): Promise<{ user: User[]; count: number }> {
+    const [user, count]: [User[], number] = await UserEntity.createQueryBuilder('us') // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+      .leftJoinAndSelect('us.contact', 'ct')
+      .leftJoinAndSelect('us.status', 'st')
+      .leftJoinAndSelect('us.pharmacy', 'ph')
+      .leftJoinAndSelect('us.poste', 'ps')
+      .leftJoinAndSelect('us.userStatus', 'ust')
+      .where('LOWER(us.name) LIKE :nm', { nm: `%${key.toLowerCase()}%` })
+      .orWhere('LOWER(us.first_name) LIKE :fn', { fn: `%${key.toLowerCase()}%` })
+      .orWhere('LOWER(ct.email) LIKE :em', { em: `%${key.toLowerCase()}%` })
       .limit(limit ? limit : 0)
       .offset(offset ? offset : 0)
-      .orderBy('qb.id', 'ASC')
       .getManyAndCount();
 
     return { user, count };
   }
-  public async findAllUserWithCondition(limit: number, offset: number, idPharmacy: number): Promise<{ user: User[]; count: number }> {
+
+  public async searchUserWithCondition(limit: number, offset: number, idPharmacy: number, key: string): Promise<{ user: User[]; count: number }> {
     const [user, count]: [User[], number] = await UserEntity.createQueryBuilder('qb')
       .leftJoinAndSelect('qb.pharmacy', 'ph')
       .leftJoinAndSelect('qb.contact', 'ct')
@@ -31,6 +77,7 @@ class UserService extends Repository<UserEntity> {
       .leftJoinAndSelect('qb.status', 'st')
       .leftJoinAndSelect('qb.poste', 'ps')
       .where('ph.id = :id', { id: idPharmacy })
+      .andWhere('LOWER(qb.name) LIKE :nm or LOWER(qb.first_name) LIKE :nm or LOWER(ct.email) LIKE :nm', { nm: `%${key.toLowerCase()}%` })
       .limit(limit ? limit : 0)
       .offset(offset ? offset : 0)
       .orderBy('qb.id', 'ASC')

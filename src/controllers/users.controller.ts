@@ -8,10 +8,6 @@ import ContactService from '@/services/contact.service';
 import BaseController from './BaseController.controller';
 import Helper from '@/utils/helper';
 import { ApiResponse } from '@/interfaces/response.interface';
-import { SECRET_KEY } from '@/config';
-import { verify } from 'jsonwebtoken';
-import { DataStoredInToken } from '@/interfaces/auth.interface';
-import { UserEntity } from '@/entities/users.entity';
 
 class UsersController extends BaseController {
   public userService = new userService();
@@ -30,28 +26,46 @@ class UsersController extends BaseController {
   };
 
   public getWithUserStatus = async (req: Request, res: Response, limit: number, page: number, offset: number): Promise<void> => {
-    const Authorization = req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null;
-    const secretKey: string = SECRET_KEY;
-    const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
-    const findUser = await UserEntity.findOne({ where: { id: id }, relations: ['pharmacy', 'contact', 'userStatus', 'status'] });
-    const userStatus: string = findUser.userStatus.code;
+    const userConnect: User = await this.helper.getUser(req);
+    const userStatus: string = userConnect.userStatus.code;
+    const keys: string = '' + req.query.key;
 
-    if (userStatus === 'ADM') {
-      const { user, count } = await this.userService.findAllUser(limit, offset);
-      const totalRows: number = count;
-      const users: User[] = user;
+    if (keys != '') {
+      if (userStatus === 'ADM') {
+        const { user, count } = await this.userService.findAllUser(limit, offset, keys);
+        const totalRows: number = count;
+        const users: User[] = user;
 
-      const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
-      res.status(200).json({ data });
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+        res.status(200).json({ data });
+      } else {
+        const idPharmacy = userConnect.pharmacy.id;
+        const { user, count } = await this.userService.findAllUserWithCondition(limit, offset, idPharmacy, keys);
+        const totalRows: number = count;
+        const users: User[] = user;
+
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+
+        res.status(200).json({ data });
+      }
     } else {
-      const idPharmacy = findUser.pharmacy.id;
-      const { user, count } = await this.userService.findAllUserWithCondition(limit, offset, idPharmacy);
-      const totalRows: number = count;
-      const users: User[] = user;
+      if (userStatus === 'ADM') {
+        const { user, count } = await this.userService.findAllUser(limit, offset, null);
+        const totalRows: number = count;
+        const users: User[] = user;
 
-      const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+        res.status(200).json({ data });
+      } else {
+        const idPharmacy = userConnect.pharmacy.id;
+        const { user, count } = await this.userService.findAllUserWithCondition(limit, offset, idPharmacy, null);
+        const totalRows: number = count;
+        const users: User[] = user;
 
-      res.status(200).json({ data });
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', users, totalRows, limit, page);
+
+        res.status(200).json({ data });
+      }
     }
   };
 
