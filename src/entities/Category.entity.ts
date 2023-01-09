@@ -20,6 +20,8 @@ export class CategoryEntity extends BaseEntity implements Category {
   @OneToMany(() => ProductEntity, (product: ProductEntity) => product.category)
   public product: ProductEntity[];
 
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.category)
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.category, {
+    onDelete: 'CASCADE',
+  })
   public pharmacy: PharmacyEntity;
 }

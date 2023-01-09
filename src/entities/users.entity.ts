@@ -52,19 +52,29 @@ export class UserEntity extends BaseEntity implements User {
   @UpdateDateColumn()
   updatedAt: Date;
 //-----------------------Many To One Relations------------------------------------
-  @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.user)
+  @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.user, { 
+    onDelete: 'CASCADE' 
+  })
   public contact: ContactEntity;
 
-  @ManyToOne(() => UserStatusEntity, (userStatus: UserStatusEntity) => userStatus.user)
+  @ManyToOne(() => UserStatusEntity, (userStatus: UserStatusEntity) => userStatus.user, { 
+    onDelete: 'CASCADE' 
+  })
   public userStatus: UserStatusEntity;
 
-  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.user)
+  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.user, { 
+    onDelete: 'CASCADE' 
+  })
   public status: Status;
 
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user)
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.user, { 
+    onDelete: 'CASCADE' 
+  })
   public pharmacy: PharmacyEntity;
 
-  @ManyToOne(() => PosteEntity, (poste: PosteEntity) => poste.user)
+  @ManyToOne(() => PosteEntity, (poste: PosteEntity) => poste.user, { 
+    onDelete: 'CASCADE' 
+  })
   public poste: PosteEntity;
 //---------------------One To Many Relations------------------------------------------------
   @OneToMany(() => MovementEntity, (movement: MovementEntity) => movement.send)

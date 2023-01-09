@@ -1,10 +1,9 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { StatusEntity } from '@entities/Status.entity';
 import { UserEntity } from '@entities/users.entity';
 import { Movement } from '@interfaces/movement.interface';
 import { TypeMovementEntity } from '@entities/TypeMovement.entity';
-import { ThresholdEntity } from '@entities/Threshold.entity';
 import { MovementDetailEntity } from '@entities/MovementDetail.entity';
 import { MovementInvoiceEntity } from '@entities/MovementInvoice.entity';
 
@@ -17,19 +16,29 @@ export class MovementEntity extends BaseEntity implements Movement {
   @IsNotEmpty()
   motif: string;
 
-  @ManyToOne(() => TypeMovementEntity, (typeMovement: TypeMovementEntity) => typeMovement.movement)
+  @ManyToOne(() => TypeMovementEntity, (typeMovement: TypeMovementEntity) => typeMovement.movement, {
+    onDelete: 'CASCADE',
+  })
   public typeMovement: TypeMovementEntity;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement, {
+    onDelete: 'CASCADE',
+  })
   public send: UserEntity;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_2)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_2, {
+    onDelete: 'CASCADE',
+  })
   public receiver: UserEntity;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_3)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.movement_3, {
+    onDelete: 'CASCADE',
+  })
   public validate: UserEntity;
 
-  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.movement)
+  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.movement, {
+    onDelete: 'CASCADE',
+  })
   public status: StatusEntity;
 
   @OneToMany(() => MovementDetailEntity, (movementDetail: MovementDetailEntity) => movementDetail.movement)

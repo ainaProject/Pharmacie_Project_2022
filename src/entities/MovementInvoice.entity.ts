@@ -1,6 +1,5 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { UserEntity } from '@entities/users.entity';
+import { IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
 import { MovementInvoice } from '@interfaces/movementInvoice.interface';
 import { MovementEntity } from '@entities/Movement.entity';
 
@@ -13,7 +12,9 @@ export class MovementInvoiceEntity extends BaseEntity implements MovementInvoice
   @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(() => MovementEntity, (movement: MovementEntity) => movement.movementInvoice)
+  @ManyToOne(() => MovementEntity, (movement: MovementEntity) => movement.movementInvoice, {
+    onDelete: 'CASCADE',
+  })
   public movement: MovementEntity;
 
   @Column()

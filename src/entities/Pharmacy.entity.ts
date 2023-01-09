@@ -18,13 +18,19 @@ export class PharmacyEntity extends BaseEntity implements Pharmacy {
   @IsNotEmpty()
   designation: string;
 
-  @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.pharmacy)
+  @ManyToOne(() => ContactEntity, (contact: ContactEntity) => contact.pharmacy, {
+    onDelete: 'CASCADE',
+  })
   public contact: ContactEntity;
 
-  @ManyToOne(() => TypePharmacyEntity, (typePharmacy: TypePharmacyEntity) => typePharmacy.pharmacy)
+  @ManyToOne(() => TypePharmacyEntity, (typePharmacy: TypePharmacyEntity) => typePharmacy.pharmacy, {
+    onDelete: 'CASCADE',
+  })
   public typePharmacy: TypePharmacyEntity;
 
-  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.pharmacy)
+  @ManyToOne(() => StatusEntity, (status: StatusEntity) => status.pharmacy, {
+    onDelete: 'CASCADE',
+  })
   public status: StatusEntity;
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.pharmacy)

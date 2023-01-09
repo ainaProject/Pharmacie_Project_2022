@@ -34,7 +34,9 @@ export class ProductEntity extends BaseEntity implements Product {
   @IsEmpty()
   description: string;
 
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.product)
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.product, {
+    onDelete: 'CASCADE',
+  })
   public pharmacy: PharmacyEntity;
 
   @OneToMany(() => StockEntity, (stock: StockEntity) => stock.product)

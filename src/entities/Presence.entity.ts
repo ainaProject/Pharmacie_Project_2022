@@ -8,7 +8,9 @@ export class PresenceEntity extends BaseEntity implements Presence {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.presence)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.presence, {
+    onDelete: 'CASCADE',
+  })
   public user: UserEntity;
 
   @Column()

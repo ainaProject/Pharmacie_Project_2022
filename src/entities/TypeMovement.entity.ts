@@ -1,5 +1,5 @@
-import { IsEmpty, IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { IsNotEmpty } from 'class-validator';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { TypeMovement } from '@interfaces/TypeMovement.interface';
 import { MovementEntity } from '@entities/Movement.entity';
 

@@ -16,7 +16,9 @@ export class PosteEntity extends BaseEntity implements Poste {
   @OneToMany(() => UserEntity, (user: UserEntity) => user.poste)
   public user: UserEntity[];
 
-  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.poste)
+  @ManyToOne(() => PharmacyEntity, (pharmacy: PharmacyEntity) => pharmacy.poste, {
+    onDelete: 'CASCADE',
+  })
   public pharmacy: PharmacyEntity;
 
   @Column()
