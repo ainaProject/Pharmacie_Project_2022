@@ -6,13 +6,31 @@ import { CategoryEntity } from '@/entities/Category.entity';
 
 @EntityRepository()
 class CategoryService extends Repository<CategoryEntity> {
-  public async findAllCategory(limit: number, offset: number, pharmacy_id: number): Promise<{ category: Category[]; count: number }> {
-    const [category, count]: [Category[], number] = await CategoryEntity.createQueryBuilder('qb')
-      .leftJoinAndSelect('qb.pharmacy', 'ph')
+  public async findAllCategory(limit: number, offset: number, pharmacy_id: number, key: string): Promise<{ category: Category[]; count: number }> {
+    if (key == null) {
+      const [category, count]: [Category[], number] = await CategoryEntity.createQueryBuilder('qb')
+        .leftJoinAndSelect('qb.pharmacy', 'ph')
+        .where('ph.id = :id', { id: pharmacy_id })
+        .limit(limit ? limit : 0)
+        .offset(offset ? offset : 0)
+        .orderBy('qb.id', 'ASC')
+        .getManyAndCount();
+
+      return { category, count };
+    } else {
+      const { category, count } = await this.searchCategory(limit, offset, key, pharmacy_id);
+
+      return { category, count };
+    }
+  }
+
+  public async searchCategory(limit: number, offset: number, key: string, pharmacy_id: number): Promise<{ category: Category[]; count: number }> {
+    const [category, count]: [Category[], number] = await CategoryEntity.createQueryBuilder('cat') // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+      .leftJoinAndSelect('cat.pharmacy', 'ph')
       .where('ph.id = :id', { id: pharmacy_id })
+      .andWhere('LOWER(cat.designation) LIKE :desi', { desi: `%${key.toLowerCase()}%` })
       .limit(limit ? limit : 0)
       .offset(offset ? offset : 0)
-      .orderBy('qb.id', 'ASC')
       .getManyAndCount();
 
     return { category, count };

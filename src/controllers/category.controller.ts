@@ -28,14 +28,25 @@ class CategoryController extends BaseController {
       const offset: number = await this.helper.calculOffset(limit, page);
       const userConnect: User = await this.helper.getUser(req);
       const pharmacy_id: number = userConnect.pharmacy.id;
+      const keys: string = '' + req.query.key;
 
-      const { category, count } = await this.categoryService.findAllCategory(limit, offset, pharmacy_id);
-      const totalRows: number = count;
-      const categorys: Category[] = category;
+      if (keys != '') {
+        const { category, count } = await this.categoryService.findAllCategory(limit, offset, pharmacy_id, keys);
+        const totalRows: number = count;
+        const categorys: Category[] = category;
 
-      const data: ApiResponse = await this.response(true, 'Get All Datas success', categorys, totalRows, limit, page);
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', categorys, totalRows, limit, page);
 
-      res.status(200).json({ data });
+        res.status(200).json({ data });
+      } else {
+        const { category, count } = await this.categoryService.findAllCategory(limit, offset, pharmacy_id, null);
+        const totalRows: number = count;
+        const categorys: Category[] = category;
+
+        const data: ApiResponse = await this.response(true, 'Get All Datas success', categorys, totalRows, limit, page);
+
+        res.status(200).json({ data });
+      }
     } catch (error) {
       next(error);
     }
