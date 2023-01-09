@@ -70,7 +70,7 @@ class CategoryController extends BaseController {
       const categoryData: CreateCategoryDto = req.body;
       const updateCategoryData: Category = await this.categoryService.updateCategory(categoryId, categoryData);
 
-      res.status(200).json({ data: updateCategoryData, message: 'category updated' });
+      res.status(200).json({ data: updateCategoryData, message: 'updated' });
     } catch (error) {
       next(error);
     }
